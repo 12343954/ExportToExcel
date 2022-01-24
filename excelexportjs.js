@@ -1,10 +1,10 @@
-﻿/*
+/*
  * jQuery Client Side Excel Export Plugin Library
  * http://techbytarun.com/
  *
  * Copyright (c) 2013 Batta Tech Private Limited
  * https://github.com/tarunbatta/ExcelExportJs/blob/master/LICENSE.txt
- *
+ * demo:https://www.jqueryscript.net/demo/Export-Table-JSON-Data-To-Excel-jQuery-ExportToExcel/
  * March 22, 2017 - Update by Maynard for IE 11.09 up compatability
  * 
  */
@@ -16,14 +16,14 @@
         , dataset: null
         , columns: null
         , returnUri: false
-	, locale: 'en-US'   
+        , locale: 'en-US'
         , worksheetName: "My Worksheet"
         , encoding: "utf-8"
     };
 
     var $settings = $defaults;
 
-    $.fn.excelexportjs = function (options) {
+    $.fn.ExcelExportjs = function (options) {
 
         $settings = $.extend({}, $defaults, options);
 
@@ -31,12 +31,11 @@
         var excelData;
 
         return Initialize();
-		
-		function Initialize() {
+
+        function Initialize() {
             var type = $settings.datatype.toLowerCase();
 
             BuildDataStructure(type);
-
 
             switch (type) {
                 case 'table':
@@ -53,18 +52,14 @@
                     break;
             }
 
-       
+
             if ($settings.returnUri) {
                 return excelData;
             }
             else {
-
-                if (!isBrowserIE())
-                {
+                if (!isBrowserIE()) {
                     window.open(excelData);
                 }
-
-               
             }
         }
 
@@ -105,8 +100,18 @@
         }
 
         function ConvertFromTable() {
-            var result = $('<div>').append($('#' + $settings.containerid).clone()).html();            
-            return result;
+            //var result = $('<div>').append($('#' + $settings.containerid).clone()).html();
+            //return result;
+
+            var div = $("<div />");
+
+            if ($settings.columns) {
+                var list = $settings.columns.map((i, k) => `<th>${k}</th>`);
+                var tmp = "<table><tr>" + Array.from(list).join("") + "</tr></table>";
+                div.append($(tmp))
+            }
+            div.append($('#' + $settings.containerid).clone()).html();
+            return div.html();
         }
 
         function ConvertDataStructureToTable() {
@@ -154,7 +159,7 @@
         function Export(htmltable) {
 
             if (isBrowserIE()) {
-        
+
                 exportToExcelIE(htmltable);
             }
             else {
@@ -217,18 +222,18 @@
             var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
             var textRange; var j = 0;
             var tab;
-                  
 
-            if ($settings.datatype.toLowerCase() == 'table') {            
+
+            if ($settings.datatype.toLowerCase() == 'table') {
                 tab = document.getElementById($settings.containerid);  // get table              
             }
-            else{
+            else {
                 tab = el.children[0]; // get table
             }
 
-          
-        
-            for (j = 0 ; j < tab.rows.length ; j++) {
+
+
+            for (j = 0; j < tab.rows.length; j++) {
                 tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
                 //tab_text=tab_text+"</tr>";
             }
@@ -249,30 +254,30 @@
                 txtArea1.focus();
                 sa = txtArea1.document.execCommand("SaveAs", true, "download");
             }
-            else                
+            else
                 sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
 
             return (sa);
 
 
         }
-        
+
     };
 })(jQuery);
 
 
 //get columns
-function getColumns(paramData){
+function getColumns(paramData) {
 
-	var header = [];
-	$.each(paramData[0], function (key, value) {
-		//console.log(key + '==' + value);
-		var obj = {}
-		obj["headertext"] = key;
-		obj["datatype"] = "string";
-		obj["datafield"] = key;
-		header.push(obj);
-	}); 
-	return header;
+    var header = [];
+    $.each(paramData[0], function (key, value) {
+        //console.log(key + '==' + value);
+        var obj = {}
+        obj["headertext"] = key;
+        obj["datatype"] = "string";
+        obj["datafield"] = key;
+        header.push(obj);
+    });
+    return header;
 
 }
