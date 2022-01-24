@@ -1,6 +1,11 @@
 # ExportToExcel
 jQuery Client Side Excel Export Plugin Library
+
+https://www.jqueryscript.net/demo/Export-Table-JSON-Data-To-Excel-jQuery-ExportToExcel/
+
 <img src="https://raw.githubusercontent.com/12343954/ExportToExcel/master/demo1.jpg" alt="demo" />
+
+------------
 MIT License
 
 Copyright (c) 2017
