@@ -1,6 +1,6 @@
 # ExportToExcel
 jQuery Client Side Excel Export Plugin Library
-<img src="demo.jpg" alt="demo" />
+<img src="https://raw.githubusercontent.com/12343954/ExportToExcel/master/demo1.jpg" alt="demo" />
 MIT License
 
 Copyright (c) 2017
